@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    
+</head>
+<body>
+    <form id="registration-form">
+        {% csrf_token %}
+        {{form.as_div}}
+        <button type="submit"> Register</button>
+    </form>
+    
+</body>
+    <script>
+        const REGISTRATION_URL = "{% url 'create_user' %}"
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="{% static 'js/login.js'%}"></script>
+</html>

@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <div id="response"></div>
+    <form id="login-form">
+        {% csrf_token %}
+        {{form}}
+        <button type="submit"> submit </button>
+    </form>
+</body>
+    <script>
+        const LOGIN_URL = "{% url 'authenticate_user' %}"
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="{% static 'js/login.js'%}"></script>
+</html>
