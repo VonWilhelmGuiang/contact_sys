@@ -2,6 +2,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.hashers import make_password, check_password
 from django.http import JsonResponse
 from django.core.exceptions import PermissionDenied
+from django.http import QueryDict
 from .models import Account, Contact
 from .forms import LoginForm, RegistrationForm, ContactForm
 from .helpers import user_logged_in
@@ -65,6 +66,7 @@ def create_user(request):
                 return JsonResponse({'message': 'Invalid Request'}, status=400)
 
 
+@csrf_protect
 def create_contact(request):
     if (request.method == "POST") and (user_logged_in(request.session)):
         form = ContactForm(request.POST)
@@ -73,7 +75,7 @@ def create_contact(request):
         if form.is_valid():
             user_account_id = Account.objects.filter(id__exact=request.session['user_id']).only('id').first()
             insert = Contact.objects.create(
-                account_id = user_account_id,
+                account = user_account_id,
                 first_name = form.cleaned_data['first_name'],
                 last_name = form.cleaned_data['last_name'],
                 phone = form.cleaned_data['phone'],
@@ -85,19 +87,42 @@ def create_contact(request):
             else:
                 return JsonResponse({'message': 'An error has occured'}, status=400)
         else:
-            return JsonResponse({'message': form.erros.as_json()}, status=400)
+            return JsonResponse({'message': form.errors.as_json()}, status=400)
     else:
         raise PermissionDenied
 
 
-def edit_contact(request):
+@csrf_protect
+def edit_contact(request, contact_id):
     if (request.method == "PUT") and (user_logged_in(request.session)):
-        return JsonResponse({'success': 'asdfasdf'}, status=201)
 
-    
+        put = QueryDict(request.body)
+        form = ContactForm(put,check_email_exist=True, check_user_id=contact_id)
+
+        if form.is_valid():
+            update = Contact.objects.filter(id__exact=contact_id).update(
+                first_name = form.cleaned_data['first_name'],
+                last_name = form.cleaned_data['last_name'],
+                phone = form.cleaned_data['phone'],
+                company = form.cleaned_data['company'],
+                email = form.cleaned_data['email']
+            )
+            if update:
+                return JsonResponse({'success': True, 'message': 'Contact Updated'}, status=201)
+            else:
+                return JsonResponse({'message': 'An error has occured'}, status=400)
+        else:
+            return JsonResponse({'message': form.errors.as_json()}, status=400)
+    else:
+        raise PermissionDenied
+
+
 def view_contacts(request, page, rows_per_page):
-    if (request.method == "GET"):
+    if (request.method == "GET") and (user_logged_in(request.session)):
         limit = rows_per_page * page
         offset = rows_per_page * (page-1)
-        result = Contact.objects.filter(account_id__exact=request.session['user_id']).order_by('id')[offset:limit]
-        return JsonResponse({'success': 'aaaaaaaaa'}, status=201)
+        result = Contact.objects.filter(account__exact=request.session['user_id']).order_by('id')[offset:limit]
+        result_list = list(result.values())
+        return JsonResponse({'contacts':result_list}, status=200)
+    else:
+        raise PermissionDenied

@@ -7,17 +7,32 @@
     <title>Contact</title>
 </head>
 <body>
+    <table id="contact-list">
+        <thead></thead>
+        <tbody></tbody>
+        <tfoot></tfoot>
+    </table>
+
     ADD CONTACT<br/>
     <form id="add-contact-form">
         {% csrf_token %}
         {{form.as_div}}
-        <button type="submit">Create</button>
+        <button type="submit">Submit</button>
     </form>
+
+    UPDATE CONTACT<br/>
+    <form id="update-contact-form">
+        {% csrf_token %}
+        {{form.as_div}}
+        <input type="text" id="update-contact-id" readonly/>
+        <button type="submit">Submit</button>
+    </form>
+
 </body>
     <script>
-        const VIEW_CONTACTS = "{% url 'view_contacts' %}"
+        const VIEW_CONTACTS = "{% url 'view_contacts' '1' '10' %}"
         const CREATE_CONTACT = "{% url 'create_contact' %}"
-        const EDIT_CONTACT = "{% url 'edit_contact' %}"
+        const EDIT_CONTACT = "{% url 'edit_contact' '0' %}"
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script src="{% static 'js/contact.js'%}"></script>

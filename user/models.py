@@ -11,7 +11,7 @@ class Account(models.Model):
 
 
 class Contact(models.Model):
-    account_id = models.ForeignKey("Account", on_delete=models.CASCADE)
+    account = models.ForeignKey("Account", on_delete=models.CASCADE)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     phone = models.CharField(max_length=25)

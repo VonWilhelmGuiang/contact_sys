@@ -15,7 +15,7 @@ class ContactAdmin(admin.ModelAdmin):
 
     @admin.display(description='Created By')
     def get_acc_name(self, obj):
-        return obj.account_id.first_name +" "+obj.account_id.last_name
+        return obj.account.first_name +" "+obj.account.last_name
 
 admin.site.register(Account, AccountAdmin)
 admin.site.register(Contact, ContactAdmin)
