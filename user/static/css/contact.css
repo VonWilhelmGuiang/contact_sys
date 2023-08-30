@@ -1,0 +1,6 @@
+#contact-list_filter .form-control-sm{
+    border-bottom: 1px solid black;   
+}
+body #toast-container > div {
+    opacity: 1;
+  }

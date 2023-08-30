@@ -1,0 +1,42 @@
+{% load static %}
+<script src="{% static 'js/core/popper.min.js' %}"></script>
+<script src="{% static 'js/core/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/plugins/perfect-scrollbar.min.js' %}"></script>
+<script src="{% static 'js/plugins/smooth-scrollbar.min.js' %}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+<script src="{% static 'js/core/material-dashboard.min.js' %}""></script>
+<script src="{% static 'js/plugins/toastr.min.js' %}"></script>
+
+<script src="{% static 'js/plugins/jquery.dataTables.min.js' %}" ></script>
+<script src="{% static 'js/plugins/dataTables.bootstrap4.min.js' %}" ></script>
+<script src="{% static 'js/plugins/dataTables.responsive.min.js' %}" ></script>
+<script src="{% static 'js/plugins/responsive.bootstrap4.min.js' %}" ></script>
+<script src="{% static 'js/plugins/dataTables.buttons.min.js' %}" ></script>
+<script src="{% static 'js/plugins/buttons.bootstrap4.min.js' %}" ></script>
+<script src="{% static 'js/plugins/jszip.min.js' %}" ></script>
+<script src="{% static 'js/plugins/pdfmake.min.js' %}" ></script>
+<script src="{% static 'js/plugins/vfs_fonts.js' %}" ></script>
+<script src="{% static 'js/plugins/buttons.html5.min.js' %}" ></script>
+<script src="{% static 'js/plugins/buttons.print.min.js' %}" ></script>
+<script src="{% static 'js/plugins/buttons.colVis.min.js' %}" ></script>
+
+<script>
+    $(document).ready(function(){
+        // nav css for current page
+        // get current url
+        const CURRENT_URL = window.location.href;
+        const CURRENT_URL_PATHNAME = window.location.pathname
+        if(CURRENT_URL_PATHNAME !== '/register/' || CURRENT_URL_PATHNAME !== '/'){
+            const NAV_BAR_ITEMS = $('#nav-bar').children('li')
+            // loop through nav bar items
+            $.each(NAV_BAR_ITEMS,function(key,NAV_ITEM){
+                // add class for nav item
+                const NAV_ITEM_URLPATH = $($(NAV_ITEM).children('a')).attr('href')
+                if(NAV_ITEM_URLPATH === CURRENT_URL_PATHNAME)
+                    $($(NAV_ITEM).children('a')).addClass('active bg-gradient-primary')
+            })
+        }
+        
+    })
+</script>
