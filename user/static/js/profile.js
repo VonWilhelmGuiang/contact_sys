@@ -15,20 +15,19 @@ $(document).ready(function(){
     $('#edit-user-form #email').val(EMAIL)
     $('#edit-user-form #first_name').val(FIRST_NAME)
     $('#edit-user-form #last_name').val(LAST_NAME)
-    let password_cleared = false
 
     $(document).on('click','#view-profile-controller',function(){
         if(!$('#view-profile-container').is(':visible')){
-            $("#edit-profile-container").animate({width:'toggle'},350,function(){ 
-                $("#view-profile-container").animate({width:'toggle'},350)
+            $("#edit-profile-container").slideToggle(function(){ 
+                $("#view-profile-container").slideToggle()
             });
         }
     })
     
     $(document).on('click','#edit-profile-controller',function(){
         if(!$('#edit-profile-container').is(':visible')){
-            $("#view-profile-container").animate({width:'toggle'},350,function(){ 
-                $("#edit-profile-container").animate({width:'toggle'},350)
+            $("#view-profile-container").slideToggle(function(){ 
+                $("#edit-profile-container").slideToggle()
             });
         }
     })
@@ -82,7 +81,19 @@ $(document).ready(function(){
             },
             success:function(response){
                 if(response.success){
+                    toastr.options = {
+                        "positionClass" : "toast-top-center",
+                        "closeButton" : false,
+                        "newestOnTop" : false,
+                        "preventDuplicates" : false,
+                        "timeOut" : "3000",
+                        "progressBar": true
+                    }
+                    toastr.options.onHidden = ( 
+                        ()=>{window.location.reload() }
+                    )
                     toastr.success(response.message)
+                    toastr.warning('Reloading the page')
                 }else{
                     toastr.error("An error has occured. Please try again")
                 }

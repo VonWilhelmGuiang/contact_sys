@@ -189,7 +189,7 @@ def update_account(request):
                     request.session['user_last_name'] = form.cleaned_data['last_name']
                     request.session['user_username'] = form.cleaned_data['username']
                     request.session['user_email'] = form.cleaned_data['email']
-                    return JsonResponse({'success': True, 'message': 'Account Updated'}, status=201)
+                    return JsonResponse({'success': True, 'message': 'Account Updated except for Password'}, status=201)
                 else:
                     return JsonResponse({'message': 'An error has occured'}, status=400)
         else:
